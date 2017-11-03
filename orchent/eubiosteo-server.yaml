@@ -150,7 +150,7 @@ topology_template:
       interfaces:
         Standard:
           configure:
-           implementation: https://bitbucket.org/aegis_12/pergamo/raw/HEAD/orchent/playbook/docker.yml
+           implementation: https://raw.githubusercontent.com/grycap/eubiosteo/master/orchent/playbook/docker.yml
     
     wn_node:
       type: tosca.nodes.indigo.LRMS.WorkerNode.Slurm
@@ -171,7 +171,7 @@ topology_template:
       interfaces:
         Standard:
           configure:
-           implementation: https://bitbucket.org/aegis_12/pergamo/raw/HEAD/orchent/playbook/docker.yml
+           implementation: https://raw.githubusercontent.com/grycap/eubiosteo/master/orchent/playbook/docker.yml
       
     slurm_wn:
       type: tosca.nodes.indigo.Compute
