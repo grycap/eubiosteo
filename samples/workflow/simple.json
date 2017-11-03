@@ -1,0 +1,20 @@
+{
+    "id": "work1",
+    "variables": {
+
+    },
+    "steps": [
+        {
+            "Job": "job0",
+            "Param": {
+                "size": "@input_entry"
+            }
+        },
+        {
+            "Job": "job1",
+            "Param": {
+                "other": "@step_job0_output_res"
+            }
+        }
+    ]
+}

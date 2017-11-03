@@ -1,0 +1,123 @@
+
+.table-responsive{
+    position: relative;
+    width: 100%;
+    margin-bottom: 20px;
+    overflow-y: hidden;
+    overflow-x: auto;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    -webkit-overflow-scrolling: touch;
+}
+
+.table-responsive>.table {
+    margin-bottom: 0;
+}
+
+.table-responsive>.table {
+    margin-bottom: 0;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 20px;
+}
+
+table {
+    background-color: transparent;
+}
+
+table {
+    border-spacing: 0;
+    border-collapse: collapse;
+}
+
+
+.table-responsive[data-pattern="priority-columns"]>.table>thead>tr>th, .table-responsive[data-pattern="priority-columns"]>.table>tbody>tr>th, .table-responsive[data-pattern="priority-columns"]>.table>tfoot>tr>th, .table-responsive[data-pattern="priority-columns"]>.table>thead>tr>td, .table-responsive[data-pattern="priority-columns"]>.table>tbody>tr>td, .table-responsive[data-pattern="priority-columns"]>.table>tfoot>tr>td {
+    white-space: nowrap;
+}
+
+.table > caption + thead > tr:first-child > th, .table > colgroup + thead > tr:first-child > th, .table > thead:first-child > tr:first-child > th, .table > caption + thead > tr:first-child > td, .table > colgroup + thead > tr:first-child > td, .table > thead:first-child > tr:first-child > td {
+    border-top: 0;
+}
+
+.table>thead>tr>th {
+    vertical-align: middle;
+}
+
+.table>thead>tr>td, .table>thead>tr>th {
+    position: relative;
+    border-bottom: 1px solid #eeeeee;
+    color: #2c2e2f;
+}
+
+.table>thead>tr>td, .table>tbody>tr>td, .table>tfood>tr>td, .table>thead>tr>th, .table>tbody>tr>th, .table>tfood>tr>th {
+    padding: 12px 15px;
+}
+
+.table > thead > tr > th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+}
+
+.table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+}
+
+th {
+    text-align: left;
+}
+
+.table>thead>tr>td:after, .table>thead>tr>th:after {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 1px;
+    height: 0;
+    background-color: #eeeeee;
+}
+
+*:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+#tools {
+
+}
+
+#tools ul {
+    list-style-type: none;
+    margin:0;
+    padding: 0;
+}
+
+#tools li {
+    padding: 20px;
+}
+
+#tools li:hover:not(.toolsel) {
+    cursor: pointer;
+    background-color: green;
+}
+
+.tabsel {
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: #4ba575;
+}
+
+.toolsel {
+    background-color: #4ba575;
+    color: white;
+}
+

@@ -1,0 +1,22 @@
+{
+    "id": "resize_hue",
+    "variables": {
+
+    },
+    "steps": [
+        {
+            "Job": "resize",
+            "Param": {
+                "image": "@input_image",
+                "size": "@input_size"
+            }
+        },
+        {
+            "Job": "hue",
+            "Param": {
+                "image": "@step_resize_output_image",
+                "hue": "@input_hue"
+            }
+        }
+    ]
+}

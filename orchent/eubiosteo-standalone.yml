@@ -1,0 +1,135 @@
+tosca_definitions_version: tosca_simple_yaml_1_0
+
+imports:
+  - indigo_custom_types: https://raw.githubusercontent.com/indigo-dc/tosca-types/master/custom_types.yaml
+ 
+description: >
+  TOSCA test for launching a Virtual Elastic Cluster. It will launch
+  a single front-end that will be in change of managing the elasticity
+  using the specified LRMS (torque, sge, slurm and condor) workload.
+topology_template:
+  inputs:
+    wn_num:
+      type: integer
+      description: Maximum number of WNs in the elastic cluster
+      default: 5
+      required: yes
+
+    fe_cpus:
+      type: integer
+      description: Numer of CPUs for the front-end node
+      default: 1
+      required: yes
+
+    fe_mem:
+      type: scalar-unit.size
+      description: Amount of Memory for the front-end node
+      default: 1 GB
+      required: yes
+
+    wn_cpus:
+      type: integer
+      description: Numer of CPUs for the WNs
+      default: 1
+      required: yes
+
+    wn_mem:
+      type: scalar-unit.size
+      description: Amount of Memory for the WNs
+      default: 1 GB
+      required: yes
+
+    location: 
+      type: string
+      description: mounting point for the container
+      default: /tmp/onedata/
+    
+    oneprovider_host: 
+      type: string
+      description: IP of the oneprovider
+      default: "cloudp01.ifca.es"
+      
+    onezone_host: 
+      type: string
+      description: IP of the onezone
+      default: "ozone01.ncg.ingrid.pt/"
+
+    onedata_dataspace: 
+      type: string
+      description: Name of the onedata dataspace
+      default: "bim_upv"
+    
+    token:
+      type: string
+      description: access token
+      default: "MDAxNWxvY2F00aW9uIG9uZXpvbmUKMDAzYmlkZW500aWZpZXIgOWRwUmYyMDFkV00FBS00IydlNjTTN3d2l1cW9ORXlaUHFVdTdfVENXWlRLYwowMDFhY2lkIHRpbWUgPCAxNTM3OTY2NzI2CjAwMmZzaWduYXR1cmUg01q7wFlPdc202jGs02tmqHQlWETO27oGczzDr5qRtvLj44K"
+
+  node_templates:
+    server: 
+      type: tosca.nodes.SoftwareComponent
+      requirements:
+        - host: server_def
+      
+      artifacts:
+        biomarkers:
+          file: indigo-dc.biomarkers
+          type: tosca.artifacts.AnsibleGalaxy.role
+      
+      interfaces:
+        Standard:
+          configure:
+            implementation: https://raw.githubusercontent.com/indigo-dc/tosca-types/master/artifacts/biomarkers/biomarkers_install.yml
+
+    server_def:
+      type: tosca.nodes.indigo.Compute
+      capabilities:
+        endpoint:
+          properties:
+            dns_name: server
+            network_name: PUBLIC
+            ports:
+              apiRest:
+                protocol: tcp
+                source: 8080
+        host:
+          properties:
+            num_cpus: { get_input: fe_cpus }
+            mem_size: { get_input: fe_mem }
+        os:
+          properties:
+            image: onecloud-linux-ubuntu-16.04-vmi
+      
+      requirements:
+        - local_storage:
+            node: my_onedata_storage
+            capability: tosca.capabilities.Attachment
+            relationship:
+              type: tosca.relationships.AttachesTo
+              properties:
+                location: { get_input: location } 
+              interfaces:
+                Configure:
+                  pre_configure_source:
+                    implementation: https://raw.githubusercontent.com/indigo-dc/tosca-types/master/artifacts/onedata/oneclient_install.yml
+                    inputs:
+                      onedata_location: { get_property: [ SELF, location ] }
+                      onedata_token: { get_property: [ TARGET, credential, token ] }
+                      oneprovider_host: { get_property: [ TARGET, oneprovider_host ] }
+                      dataspace: { get_property: [ TARGET, dataspace ] }
+                      onezone_endpoint: { get_property: [ TARGET, onezone_endpoint ] }
+    
+    my_onedata_storage: 
+      type: tosca.nodes.indigo.OneDataStorage
+      properties:
+        oneprovider_host: [{ get_input: oneprovider_host }]
+        dataspace: [{ get_input: onedata_dataspace }]
+        onezone_endpoint: { get_input: onezone_host }
+        credential:
+          token: { get_input: token }
+          token_type: token
+
+  outputs:
+    cluster_ip:
+      value: { get_attribute: [ server_def, public_address, 0 ] }
+    cluster_creds:
+      value: { get_attribute: [ server_def, endpoint, credential, 0 ] }
