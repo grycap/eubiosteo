@@ -162,16 +162,6 @@ topology_template:
             max_instances: { get_input: wn_num }
       requirements:
         - host: slurm_wn
-
-      artifacts:
-        docker_agent_role:
-          file: indigo-dc.docker
-          type: tosca.artifacts.AnsibleGalaxy.role
-      
-      interfaces:
-        Standard:
-          configure:
-           implementation: https://raw.githubusercontent.com/grycap/eubiosteo/master/orchent/playbook/docker.yml
       
     slurm_wn:
       type: tosca.nodes.indigo.Compute
